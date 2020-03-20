@@ -12,12 +12,34 @@ class Student:
         self.data_base = {}
         
     def add_student(self):
-        temp_name = input("Enter name of the student: ")
-        nsub = int(input("Number of subjects: "))
+        
+        while True:
+            try:
+                temp_name = str(input("Enter name of the student: "))
+                break
+            except:
+                self.Error()
+            
+        
+        while True:
+            nsub = int(input("Number of subjects: "))
+            if nsub != int or 0<=nsub<=10:
+                self.Error()
+            else:
+                break
+            
+        
         
         marks_list = []
         for i in range(nsub):
-            temp_marks = int(input ("Enter sub " + str(i+1) +" :" ))
+            while True:
+                temp_marks = int(input ("Enter sub " + str(i+1) +" :" ))
+                if temp_marks != int:
+                    self.Error()
+                else:
+                    break
+            
+            
             marks_list.append(temp_marks)
             
             
@@ -25,7 +47,14 @@ class Student:
         print(self.data_base[temp_name])
         
     def Average_marks(self):
-        name_to_find = input("Enter the name to find: ")
+        
+        while True:
+            name_to_find = input("Enter the name to find: ")
+            if name_to_find != str:
+                self.Error()
+            else:
+                    break
+        
         if name_to_find in self.data_base:
             marks_to_find = self.data_base[name_to_find]
             print( sum(marks_to_find)/len(marks_to_find))
@@ -33,7 +62,13 @@ class Student:
             print( name_to_find +" not in the databae")
             
     def search_student(self):
-        name_to_find = input("Enter the name to find: ")
+        
+        while True:
+                name_to_find = input("Enter the name to find: ")
+                if name_to_find != str:
+                    self.Error()
+                else:
+                    break
         if name_to_find in self.data_base:
             print(name_to_find + " Exist")
             print(self.data_base[name_to_find])
@@ -42,6 +77,9 @@ class Student:
     def show_summary(self):
         for name in self.data_base:
             print(name, self.data_base[name])
+            
+    def Error(self):
+        print("Invalid Input")
             
 def main():
     
@@ -71,7 +109,11 @@ def main():
             elif option ==4:
                 st1.show_summary()
             elif option == 5:
+            
+                
+            
                 break
+            
                 
             
         
