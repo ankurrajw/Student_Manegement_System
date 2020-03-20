@@ -7,10 +7,9 @@ Created on Fri Mar 20 11:22:28 2020
 
 class Student:
     
-    def __init__(self,name,marks):
-        self.name = name
-        self.marks = marks
-        self.data_base = {self.name:self.marks}
+    def __init__(self):
+        
+        self.data_base = {}
         
     def add_student(self):
         temp_name = input("Enter name of the student: ")
@@ -25,29 +24,66 @@ class Student:
         self.data_base.update({temp_name:marks_list})
         print(self.data_base[temp_name])
         
-    def Average_marks(self,name_to_find):
+    def Average_marks(self):
+        name_to_find = input("Enter the name to find: ")
         if name_to_find in self.data_base:
             marks_to_find = self.data_base[name_to_find]
-            return sum(marks_to_find)/len(marks_to_find)
+            print( sum(marks_to_find)/len(marks_to_find))
         else:
             print( name_to_find +" not in the databae")
             
-    def search_student(self,name_to_find):
+    def search_student(self):
+        name_to_find = input("Enter the name to find: ")
         if name_to_find in self.data_base:
             print(name_to_find + " Exist")
             print(self.data_base[name_to_find])
         else:
             print( name_to_find +" not in the databae")
+    def show_summary(self):
+        for name in self.data_base:
+            print(name, self.data_base[name])
+            
+def main():
+    
+    st1 = Student()
+    
+    while(True):
+        try:
+            print("""
+           
+              --- Welcome to Student Management System ----
+           
+              Please select one of the following option 
+              
+              1.Add New Student
+              2.Search Student
+              3.Average Marks of the Student
+              4.Show Summary
+              5.Exit Program""")
+            option = int(input("Enter your choice :"))
+            
+            if option==1:
+                st1.add_student()
+            elif option ==2:
+                st1.search_student()
+            elif option ==3:
+                st1.Average_marks()
+            elif option ==4:
+                st1.show_summary()
+            elif option == 5:
+                break
+                
+            
         
-
-st1 = Student("Elia", [34 , 12, 45, 78, 99 ])  
-
-st1.add_student()
-st1.add_student()
-
-
-st1.search_student(input("Enter Name to be searched: "))
-
+            
+        except ValueError:
+                print("""Invalid Input: Please enter a number""")
+                
+                
+                
+        
+        
+main()
 
      
             
