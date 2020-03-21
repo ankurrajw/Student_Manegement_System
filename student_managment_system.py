@@ -14,43 +14,50 @@ class Student:
     def add_student(self):
         
         while True:
-            try:
-                temp_name = str(input("Enter name of the student: "))
+            temp_name = input("Enter name of the student: ")
+            
+            if temp_name.isalpha() :
                 break
-            except:
+            else:
                 self.Error()
+                
             
         
         while True:
             nsub = int(input("Number of subjects: "))
-            if nsub != int or 0<=nsub<=10:
-                self.Error()
-            else:
+            
+            if type(nsub) == int and 0<=nsub<=10:
+                marks_list = []
+                for i in range(nsub):
+                    while True:
+                        temp_marks = int(input ("Enter sub " + str(i+1) +" :" ))
+                        if type(temp_marks) != int:
+                            self.Error()
+                            
+                        else:
+                            break
+            
+                    marks_list.append(temp_marks)
+            
+            
+                self.data_base.update({temp_name:marks_list})
+                print(self.data_base[temp_name])
                 break
+            else:
+                self.Error()
+                
+                
+    
             
         
         
-        marks_list = []
-        for i in range(nsub):
-            while True:
-                temp_marks = int(input ("Enter sub " + str(i+1) +" :" ))
-                if temp_marks != int:
-                    self.Error()
-                else:
-                    break
-            
-            
-            marks_list.append(temp_marks)
-            
-            
-        self.data_base.update({temp_name:marks_list})
-        print(self.data_base[temp_name])
+        
         
     def Average_marks(self):
         
         while True:
             name_to_find = input("Enter the name to find: ")
-            if name_to_find != str:
+            if type(name_to_find) != str:
                 self.Error()
             else:
                     break
@@ -65,7 +72,7 @@ class Student:
         
         while True:
                 name_to_find = input("Enter the name to find: ")
-                if name_to_find != str:
+                if type(name_to_find) != str:
                     self.Error()
                 else:
                     break
@@ -109,8 +116,6 @@ def main():
             elif option ==4:
                 st1.show_summary()
             elif option == 5:
-            
-                
             
                 break
             
