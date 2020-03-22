@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class Student:
     
@@ -80,6 +81,12 @@ class Student:
     def save_toCSV(self): #To save the current data to the csv file.
         self.data_base.to_csv('student_data.csv',index=False)
         print("Data Saved to the current Directory")
+        
+    def Plot_Bar_Chart(self):
+        Temp_chart_data = self.data_base.set_index("Name") #Copying the database to anew variable and setting the index as Name(by deafult the index was 0,1...)
+        Temp_chart_data.plot.bar()
+        plt.show() #Forcing pandas to show the plot
+        
             
 def main(): #Its like a menu for the user.
     
@@ -98,7 +105,8 @@ def main(): #Its like a menu for the user.
               3.Average Marks of the Student
               4.Show Summary
               5.Save Student Data
-              6.Exit Program""")
+              6.Plot Bar Chart
+              7.Exit Program""")
             option = int(input("Enter your choice :"))
             
             if option==1:
@@ -111,8 +119,10 @@ def main(): #Its like a menu for the user.
                 st1.show_summary()
             elif option == 5:
                 st1.save_toCSV()
-            elif option == 6:
-                print("\n GoodBye !!")
+            elif option ==6:
+                st1.Plot_Bar_Chart()
+            elif option == 7:
+                print("\n Good Day !!")
                 break
             else:
                 print("Please select one of the options")
