@@ -1,49 +1,87 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar 20 11:22:28 2020
-
-@author: Suraj Pandey
-"""
+import pandas as pd
 
 class Student:
     
     def __init__(self):
         
-        self.data_base = {}
+        self.data_base = pd.read_csv("student_data.csv") #Reads file from Student_data.csv
+        self.temp_data = []   #Temporaray data of the session.
+    def add_student(self): #To add new student to the existing database.
         
-    def add_student(self):
-        temp_name = input("Enter name of the student: ")
-        nsub = int(input("Number of subjects: "))
-        
-        marks_list = []
-        for i in range(nsub):
-            temp_marks = int(input ("Enter sub " + str(i+1) +" :" ))
-            marks_list.append(temp_marks)
+        while True:
+            temp_name = input("Enter name of the student: ")  #Inputs name of student from the User.
+            if temp_name.isalpha() :
+                break
+            else:
+                print("Please Enter String Data")
+                
             
+        while True:
             
-        self.data_base.update({temp_name:marks_list})
-        print(self.data_base[temp_name])
+            nsub = 3 #Number of Subjects
+            marks_list = []
+            for i in range(nsub):
+                print("Enter marks for subject {}".format(i+1))
+                try:        #Subject Integer Input for the Student
+                    subject_marks = int(input())
+                    marks_list.append(subject_marks)
+                except ValueError: #If not integer, then code runs into this error message.
+                    print("\nSubjects can only be integers")
+                    print('Enter Again')
+                    break
+                
+            if i==2:
+                print("Marks for student {} is {}".format(temp_name,marks_list))
+                break
+        self.temp_data = []   
+        self.temp_data.append(temp_name)
+        for item in marks_list:
+            self.temp_data.append(item)
+        temp_data_df = pd.DataFrame([self.temp_data],
+                                    columns= ["Name","Marks1","Marks2","Marks3"]) #Coverting List data into panda dataframe.
+        self.data_base = pd.concat([self.data_base,temp_data_df],ignore_index= True)#Adding temporary data to main database
+       # print(self.data_base)
+        #print(self.temp_data)
         
-    def Average_marks(self):
-        name_to_find = input("Enter the name to find: ")
-        if name_to_find in self.data_base:
-            marks_to_find = self.data_base[name_to_find]
-            print( sum(marks_to_find)/len(marks_to_find))
+        
+    def Average_marks(self): #To calculate average marks obtained by the student.
+        
+        while True:
+            name_to_find = input("Enter the name to find: ")
+            if type(name_to_find) != str:
+                print("Please Enter only sting values")
+            else:
+                break
+        if name_to_find in self.data_base.values:
+            average = self.data_base[self.data_base["Name"] == name_to_find].mean(axis = 1)#Logic to calculate average marks. Axis 1 denotes the row
+            print("Average Marks for {} is {}".format(name_to_find,average))
         else:
-            print( name_to_find +" not in the databae")
+            print("The student {} is not in Database".format(name_to_find))
             
-    def search_student(self):
-        name_to_find = input("Enter the name to find: ")
-        if name_to_find in self.data_base:
-            print(name_to_find + " Exist")
-            print(self.data_base[name_to_find])
+            
+    def search_student(self): #To search a student in the database
+        while True:
+            name_to_find = input("Enter the name to find: ")
+            if type(name_to_find) != str:
+                print("Please Enter only sting values")
+            else:
+                break
+        if name_to_find in self.data_base.values: #If the name exists in the database then it returns true
+            print("{} is Present".format(name_to_find))
         else:
-            print( name_to_find +" not in the databae")
-    def show_summary(self):
-        for name in self.data_base:
-            print(name, self.data_base[name])
+            print("The student {} is not in Database".format(name_to_find))
             
-def main():
+        
+        
+            
+    def show_summary(self):#Lists the number os students with their marks.
+        print(self.data_base.to_string(index = False))
+    
+    def save_toCSV(self): #To save the current data to the csv file.
+        self.data_base.to_csv('student_data.csv',index=False)
+        print("Data Saved to the current Directory")
+            
+def main(): #Its like a menu for the user.
     
     st1 = Student()
     
@@ -59,7 +97,8 @@ def main():
               2.Search Student
               3.Average Marks of the Student
               4.Show Summary
-              5.Exit Program""")
+              5.Save Student Data
+              6.Exit Program""")
             option = int(input("Enter your choice :"))
             
             if option==1:
@@ -71,7 +110,13 @@ def main():
             elif option ==4:
                 st1.show_summary()
             elif option == 5:
+                st1.save_toCSV()
+            elif option == 6:
+                print("\n GoodBye !!")
                 break
+            else:
+                print("Please select one of the options")
+            
                 
             
         
@@ -84,12 +129,3 @@ def main():
         
         
 main()
-
-     
-            
-            
-        
-        
-        
-        
-        
